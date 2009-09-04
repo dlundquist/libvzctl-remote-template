@@ -4,7 +4,7 @@ CC = gcc
 DEFS = -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DSBINDIR=\"/usr/sbin\" -DPKGCONFDIR=\"/etc/vz\" -DDEBUG=1
 
 # Assume vzctl's source is extracted in to the same parent directory as libvzctl-remote-template was extracted
-INCLUDES = -I ../vzctl/include
+INCLUDES = -I ./include -I ../vzctl/include
 
 CFLAGS = -Wall -Wextra -fPIC
 

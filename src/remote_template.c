@@ -22,58 +22,39 @@
 #include <getopt.h> /* in get_opt() and parse_opt() */
 #include <stdlib.h> /* exit() */
 #include <string.h> /* strlen() strncpy */
+#include "remote_template.h"
 #include "logger.h" /* logger() */
 #include "script.h" /* run_script() */
-
-#define PARAM_TEMPLATE_FILE 16998
-#define PARAM_TEMPLATE_URL 16999
-
-#define VPS_CREATE		LIB_SCRIPTS_DIR "vps-create"
-#define VPS_REMOTE_CREATE	LIB_SCRIPTS_DIR "vps-remote-create"
-
-typedef struct {
-	char *template_file;
-	char *template_url;
-} mod_options;
 
 #ifndef lint
 static const char rcsid[] = "$Id$";
 #endif
 
-int setup(vps_handler *, envid_t, data_param *, int, int, vps_param *);
-struct option *get_opt(data_param *, const char *);
-int parse_opt(envid_t, data_param *, int, const char *);
-data_param *alloc_data(void);
-void free_data(data_param *);
-const char *get_usage(void);
-
-/* An array of vzctl actions that we are loaded for */
-char *actions[] = { "create", NULL };
-
-struct mod_info this_mod = {
-        NULL, /* void *handle; this is populated by vzctl module.c add_module() */
-        actions, /* char **actions; */
-        8786, /* int id;  */
-        "Remote Template", /* char *desc; */
-        &alloc_data, /* data_param *(*alloc_data)(void); */
-	NULL, /* int (*init)(data_param *data); */
-        NULL, /* int (*parse_cfg)(envid_t veid, data_param *data, const char *name, 
-                      const char *rval); */
-        &parse_opt, /* int (*parse_opt)(envid_t veid, data_param *data, int opt,
-                        const char *rval); */
-        NULL, /* int (*store)(data_param *data, list_head_t *conf_head); */
-        &setup, /* int (*setup)(vps_handler *h, envid_t veid, data_param *data,
-                        int vps_state, int skip, vps_param *param); */
-        NULL, /* int (*cleanup)(vps_handler *h, envid_t veid, data_param *data,
-                        vps_param *param); */
-        &free_data, /* void (*free_data)(data_param *data); */
-        &get_opt, /* struct option *(*get_opt)(data_param *data, const char *action); */
-        &get_usage, /* const char *(*get_usage)(); */
-};
-
 /* vz_get_mod_info returns some structure to vzctl that describes this module
  * using this as a hook to examine our environment */
 struct mod_info *vz_get_mod_info() {
+	/* An array of vzctl actions that we are loaded for */
+	static char *actions[] = { "create", NULL };
+	static struct mod_info this_mod = {
+		NULL, /* void *handle; this is populated by vzctl module.c add_module() */
+		actions, /* char **actions; */
+		8786, /* int id;  */
+		"Remote Template", /* char *desc; */
+		&alloc_data, /* data_param *(*alloc_data)(void); */
+		NULL, /* int (*init)(data_param *data); */
+		NULL, /* int (*parse_cfg)(envid_t veid, data_param *data, const char *name, 
+			      const char *rval); */
+		&parse_opt, /* int (*parse_opt)(envid_t veid, data_param *data, int opt,
+				const char *rval); */
+		NULL, /* int (*store)(data_param *data, list_head_t *conf_head); */
+		&setup, /* int (*setup)(vps_handler *h, envid_t veid, data_param *data,
+				int vps_state, int skip, vps_param *param); */
+		NULL, /* int (*cleanup)(vps_handler *h, envid_t veid, data_param *data,
+				vps_param *param); */
+		&free_data, /* void (*free_data)(data_param *data); */
+		&get_opt, /* struct option *(*get_opt)(data_param *data, const char *action); */
+		&get_usage, /* const char *(*get_usage)(); */
+	};
 	return (&this_mod);
 }
 

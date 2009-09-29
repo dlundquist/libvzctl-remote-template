@@ -29,11 +29,4 @@ typedef struct {
         char *template_url;
 } mod_options;
 
-int setup(vps_handler *, envid_t, data_param *, int, int, vps_param *);
-struct option *get_opt(data_param *, const char *);
-int parse_opt(envid_t, data_param *, int, const char *);
-data_param *alloc_data(void);
-void free_data(data_param *);
-const char *get_usage(void);
 #endif
-

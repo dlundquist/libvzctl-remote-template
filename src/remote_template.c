@@ -188,17 +188,24 @@ static int setup(vps_handler *h, envid_t veid, data_param *data,
 	mod_options *options = (mod_options*) data->opt; /* only cast once */
 	int quota = 0; /* quota flag */
 
+	/* Expand $VEID */
+	fs->private = subst_VEID(veid, fs->private);
+	fs->root = subst_VEID(veid, fs->root);
+
 #ifdef DEBUG	
 	printf(__FILE__ " setup(%p, %d, %p, %d, %d, %p) called\n", h, veid, data, vps_state, skip, param);
-	printf(__FILE__ " os_template:\t%s\n", tmpl->ostmpl);
+	printf(__FILE__ " os_template:\t%s\n\t\t%s\n\t\t%s\n\t\t%s\n\t\t%s\n", tmpl->def_ostmpl, tmpl->ostmpl, tmpl->pkgset, tmpl->pkgver, tmpl->dist);
 	printf(__FILE__ " private_dir:\t%s\n", fs->private);
 	printf(__FILE__ " root_dir:\t%s\n", fs->root);
 	printf(__FILE__ " template_file:\t%s\n", options->template_file);
 	printf(__FILE__ " template_url:\t%s\n", options->template_url);
 #endif
 
+	if (tmpl->ostmpl == NULL && tmpl->def_ostmpl != NULL)
+		tmpl->ostmpl = strdup(tmpl->def_ostmpl);
         if (check_var(tmpl->ostmpl, "OS template is not specified"))
 		return VZ_VE_PKGSET_NOTSET;
+
 
 	/* We have three options for choosing a source for our OS template */
 	if(options->template_url) {

@@ -36,7 +36,7 @@ function create_prvt()
 	fi
 
 	# Test the template
-	TMP=`curl -I ${TEMPLATE}`
+	TMP=`curl -s -I ${TEMPLATE}`
 	if [ $? -ne 0 ]; then
 		vzerror "Error in curl -I ${TEMPLATE}" $VZ_FS_NEW_VE_PRVT
 	fi

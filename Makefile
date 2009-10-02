@@ -12,7 +12,7 @@ CFLAGS = -Wall -fPIC
 DEFS += -DDEBUG=1
 CFLAGS += -Wextra
 
-all: src/remote_template.so
+all: src/remote_template.so scripts/vps-remote-create
 
 install: src/remote_template.so scripts/vps-remote-create
 	install src/remote_template.so $(PKGLIBDIR)/modules/remote_template.so
@@ -23,7 +23,7 @@ uninstall:
 	rm $(PKGLIBDIR)/modules/remote_template.so
 
 clean:
-	rm src/remote_template.so src/remote_template.o
+	rm src/remote_template.so src/remote_template.o scripts/vps-remote-create
 
 src/remote_template.so: src/remote_template.o
 	$(CC) -shared $+ -Wl,-soname -ldl -o $@
@@ -31,3 +31,5 @@ src/remote_template.so: src/remote_template.o
 src/remote_template.o: src/remote_template.c
 	$(CC) $(DEFS) $(INCLUDES) $(CFLAGS) -c $+ -o $@
 
+scripts/vps-remote-create: scripts/vps-remote-create.in
+	sed -e 's!@'PKGLIBDIR'@!$(PKGLIBDIR)!g;' $< > $@

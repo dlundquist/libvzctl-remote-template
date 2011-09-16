@@ -5,8 +5,7 @@ DEFS = -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H
 PKGLIBDIR = /usr/lib/vzctl
 VERSION = 0.01
 
-# Assume vzctl's source is extracted in to the same parent directory as libvzctl-remote-template was extracted
-INCLUDES = -I ./include -I ../vzctl/include
+INCLUDES = -I ./include -I ./vzctl/include
 
 CFLAGS = -Wall -fPIC
 

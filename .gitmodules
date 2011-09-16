@@ -1,0 +1,3 @@
+[submodule "vzctl"]
+	path = vzctl
+	url = git://git.openvz.org/pub/vzctl

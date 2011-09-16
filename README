@@ -1,5 +1,5 @@
 Build Environment
 
 Currently there is not configure script and the Makefile expect the vzctl
-source to be extracted in ../vzctl, you may need to copy the DEFS from your
-vzctl Makefile (after running configure).
+source is installed by git submodule init, you may need to copy the DEFS
+from your vzctl Makefile (after running configure).

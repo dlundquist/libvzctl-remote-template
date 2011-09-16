@@ -37,7 +37,8 @@ static const char rcsid[] = "$Id$";
  * alloc_data() is a hook to allocated any datastructures required for this module, it's result is
  * passwd to init()
  */
-static data_param *alloc_data() {
+static data_param *
+alloc_data() {
 	data_param *data;
 
 #ifdef DEBUG	
@@ -63,7 +64,8 @@ static data_param *alloc_data() {
  * allocated by alloc_data()
  */
 /*
-static int init(data_param *data) {
+static int
+init(data_param *data) {
 	return (0);
 }
 */
@@ -71,7 +73,8 @@ static int init(data_param *data) {
 /*
  * free_data() releases all internal data structures
  */
-static void free_data(data_param *data) {
+static void
+free_data(data_param *data) {
 	mod_options *options;
 
 #ifdef DEBUG	
@@ -96,7 +99,8 @@ static void free_data(data_param *data) {
  * data a pointer to any data we allocated in alloc_data()
  * action is the action name
  */
-static struct option *get_opt(data_param *data, const char *action) {
+static struct option *
+get_opt(data_param *data, const char *action) {
 	static struct option create_options[] = {
 		{"template_file", required_argument, NULL, PARAM_TEMPLATE_FILE},
 		{"template_url", required_argument, NULL, PARAM_TEMPLATE_URL},
@@ -115,7 +119,8 @@ static struct option *get_opt(data_param *data, const char *action) {
  * it is called for each option - opt and some additional ones with the value in rval
  * this function should return one of the ERR_ codes in include/types.h
  */
-static int parse_opt(envid_t veid, data_param *data, int opt, const char *rval) {
+static int
+parse_opt(envid_t veid, data_param *data, int opt, const char *rval) {
 	size_t len;
 	/*
 	 * data_params only provides to void pointers so we use a local mod_options
@@ -168,8 +173,8 @@ static int parse_opt(envid_t veid, data_param *data, int opt, const char *rval) 
  *
  * most of this was figured out from lib/create.c vps_create()
  */
-static int setup(vps_handler *h, envid_t veid, data_param *data,
-		int vps_state, int skip, vps_param *param) {
+static int
+setup(vps_handler *h, envid_t veid, data_param *data, int vps_state, int skip, vps_param *param) {
 	/* h is our container handler - actual handle to interface with kernel stuff */
 	/* veid - integer veid */
 	/* data - result of alloc_data function in mod_info if defined */
@@ -194,7 +199,7 @@ static int setup(vps_handler *h, envid_t veid, data_param *data,
 
 #ifdef DEBUG	
 	printf(__FILE__ " setup(%p, %d, %p, %d, %d, %p) called\n", h, veid, data, vps_state, skip, param);
-	printf(__FILE__ " os_template:\t%s\n\t\t%s\n\t\t%s\n\t\t%s\n\t\t%s\n", tmpl->def_ostmpl, tmpl->ostmpl, tmpl->pkgset, tmpl->pkgver, tmpl->dist);
+	printf(__FILE__ " os_template:\t%s\n\t\t%s\n\t\t%s\n", tmpl->def_ostmpl, tmpl->ostmpl, tmpl->dist);
 	printf(__FILE__ " private_dir:\t%s\n", fs->private);
 	printf(__FILE__ " root_dir:\t%s\n", fs->root);
 	printf(__FILE__ " template_file:\t%s\n", options->template_file);
@@ -204,7 +209,7 @@ static int setup(vps_handler *h, envid_t veid, data_param *data,
 	if (tmpl->ostmpl == NULL && tmpl->def_ostmpl != NULL)
 		tmpl->ostmpl = strdup(tmpl->def_ostmpl);
         if (check_var(tmpl->ostmpl, "OS template is not specified"))
-		return VZ_VE_PKGSET_NOTSET;
+		return VZ_VE_OSTEMPLATE_NOTSET;
 
 
 	/* We have three options for choosing a source for our OS template */
@@ -223,7 +228,7 @@ static int setup(vps_handler *h, envid_t veid, data_param *data,
 			snprintf(tarball, sizeof(tarball), "%s/cache/%s.tar.gz", fs->tmpl, options->template_file);
 		if (!stat_file(tarball)) {
 			logger(-1, 0, "Cached os template %s not found", tarball);
-			return VZ_PKGSET_NOT_FOUND;
+			return VZ_OSTEMPLATE_NOT_FOUND;
 		}
 	} else {
 		/* Fall back to using ostemplate as basename */
@@ -233,7 +238,7 @@ static int setup(vps_handler *h, envid_t veid, data_param *data,
                 	snprintf(tarball, sizeof(tarball), "%s/cache/%s.tar.gz", fs->tmpl, tmpl->ostmpl);
 		if (!stat_file(tarball)) {
 			logger(-1, 0, "Cached os template %s not found", tarball);
-			return VZ_PKGSET_NOT_FOUND;
+			return VZ_OSTEMPLATE_NOT_FOUND;
 	        }
 	}
 
@@ -317,7 +322,8 @@ err:
 /*
  * get_usage should return a char pointer to be appended to the usage output
  */
-static const char *get_usage() {
+static const char *
+get_usage() {
 	static const char *usage = "This version of vzctl has the Blue Box Group remote template module loaded\n"
 	"that supports the following expanded create syntax:\n"
 	"vzctl create <veid> --ostemplate <name>] [--config <name>]\n"
@@ -332,7 +338,8 @@ static const char *get_usage() {
 
 /* vz_get_mod_info returns some structure to vzctl that describes this module
  * using this as a hook to examine our environment */
-struct mod_info * vz_get_mod_info() {
+struct mod_info *
+vz_get_mod_info() {
 	/* An array of vzctl actions that we are loaded for */
 	static char *actions[] = { "create", NULL };
 	static struct mod_info this_mod = {

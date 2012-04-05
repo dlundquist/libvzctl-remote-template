@@ -100,7 +100,7 @@ free_data(data_param *data) {
  * action is the action name
  */
 static struct option *
-get_opt(data_param *data, const char *action) {
+get_opt(data_param *data __attribute__ ((unused)), const char *action __attribute__ ((unused))) {
 	static struct option create_options[] = {
 		{"template_file", required_argument, NULL, PARAM_TEMPLATE_FILE},
 		{"template_url", required_argument, NULL, PARAM_TEMPLATE_URL},
@@ -120,7 +120,7 @@ get_opt(data_param *data, const char *action) {
  * this function should return one of the ERR_ codes in include/types.h
  */
 static int
-parse_opt(envid_t veid, data_param *data, int opt, const char *rval) {
+parse_opt(envid_t veid __attribute__ ((unused)), data_param *data, int opt, const char *rval) {
 	size_t len;
 	/*
 	 * data_params only provides to void pointers so we use a local mod_options
@@ -174,7 +174,7 @@ parse_opt(envid_t veid, data_param *data, int opt, const char *rval) {
  * most of this was figured out from lib/create.c vps_create()
  */
 static int
-setup(vps_handler *h, envid_t veid, data_param *data, int vps_state, int skip, vps_param *param) {
+setup(vps_handler *h __attribute__ ((unused)), envid_t veid, data_param *data, int vps_state __attribute__ ((unused)), int skip __attribute__ ((unused)), vps_param *param) {
 	/* h is our container handler - actual handle to interface with kernel stuff */
 	/* veid - integer veid */
 	/* data - result of alloc_data function in mod_info if defined */

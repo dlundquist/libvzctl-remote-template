@@ -31,8 +31,11 @@ vzcheckvar VE_PRVT TEMPLATE
 
 function create_prvt()
 {
+	local TMP
+	local TAR_OPT="--numeric-owner -Sp"
+
 	if test ! -d ${VE_PRVT}; then
-		vzerror "Destination dir doesn't exists: ${VE_PRVT}" $VZ_FS_NEW_VE_PRVT 
+		vzerror "Destination dir doesn't exists: ${VE_PRVT}" $VZ_FS_NEW_VE_PRVT
 	fi
 
 	# Test the template
